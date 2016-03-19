@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="oracle.properties"></properties>
+
+	<!-- 配置mybatis的延迟加载 -->
+	<settings>
+		<!-- 开启延迟加载 -->
+		<setting name="lazyLoadingEnabled" value="true" />
+		<!-- 将积极加载改为消极加载，即按需加载 -->
+		<setting name="aggressiveLazyLoading" value="false" />
+		<!-- 开启二级缓存，一级缓存默认是开启的 -->
+		<setting name="cacheEnabled" value="true" />
+	</settings>
+
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 加载映射文件 -->
+	<mappers>
+		<!-- <mapper resource="sqlmap/Employee.xml" /> <mapper resource="sqlmap/Emp.xml" 
+			/> -->
+		<!-- <mapper resource="mapper/EmpMapper.xml" /> -->
+
+		<!-- 通过mapper接口加载映射文件 使用mapper代理的方式 类名和mapper xml的名字要一致,并且放在一个目录中 -->
+		<!--<mapper class="com.mybatis.demo.mapper.EmpMapper"/> -->
+
+		<!-- 批量加载mapper接口 指定mapper接口的包名，mybatis将批量加载包下面所有的mapper接口，首先必须得满足上面的规范 -->
+		<package name="demo.redis.mybatis.mapper" />
+	</mappers>
+</configuration>

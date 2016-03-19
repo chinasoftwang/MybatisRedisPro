@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的作用是对sql进行简单的分类管理 -->
+<mapper namespace="demo.redis.mybatis.mapper.DeptMapper">
+
+	<!-- parameterMap.put("periodId", 331); parameterMap.put("orgId", 1639[BPIT]); 
+		parameterMap.put("applyMajor", null); parameterMap.put("applyGrade", 769[T5]); -->
+	<parameterMap type="java.util.Map" id="getOriginalCommId">
+		<parameter property="committeeId" mode="OUT" jdbcType="INTEGER" />
+		<parameter property="periodId" mode="IN" jdbcType="INTEGER" />
+		<parameter property="orgId" mode="IN" jdbcType="INTEGER" />
+		<parameter property="applyMajor" mode="IN" jdbcType="INTEGER" />
+		<parameter property="applyGrade" mode="IN" jdbcType="INTEGER" />
+	</parameterMap>
+
+	<parameterMap type="java.util.Map" id="deptIdEmp">
+		<parameter property="empId" mode="IN" jdbcType="INTEGER" />
+		<parameter property="deptId" mode="OUT" jdbcType="INTEGER" />
+	</parameterMap>
+
+	<select id="getDeptIdForEmp" parameterMap="deptIdEmp"
+		statementType="CALLABLE">
+		{ call
+		cux_hr_pkg.get_deptid_foremp(?,?)}
+	</select>
+
+	<select id="getDeptIdByEmpId" parameterType="Integer"
+		resultType="Integer" statementType="CALLABLE">
+		{
+		#{deptId,mode=OUT,jdbcType=INTEGER} = call
+		cux_hr_pkg.get_deptid_by_empid(#{empId,mode=IN,jdbcType=INTEGER})}
+	</select>
+
+</mapper>
